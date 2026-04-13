@@ -1,5 +1,6 @@
 mod build_admin1;
 mod build_data;
+mod deploy;
 mod regen_sqlite;
 
 use clap::{Parser, Subcommand};
@@ -36,6 +37,25 @@ enum Commands {
         output: String,
     },
 
+    /// Deploy bundle to Cloudflare Pages
+    DeployCfPages {
+        /// Path to bundle zip file
+        #[arg(short, long, default_value = "bundle.zip")]
+        bundle: String,
+
+        /// Cloudflare account ID
+        #[arg(short, long)]
+        account_id: String,
+
+        /// Cloudflare API token
+        #[arg(short, long)]
+        token: String,
+
+        /// Project name
+        #[arg(short, long, default_value = "zman")]
+        project: String,
+    },
+
     /// Regenerate the SQLite database from source data files
     RegenSqlite {
         /// Output path for the SQLite database file
@@ -53,6 +73,14 @@ fn main() {
         }
         Commands::BuildData { db, output } => {
             build_data::build_data(&db, &output);
+        }
+        Commands::DeployCfPages {
+            bundle,
+            account_id,
+            token,
+            project,
+        } => {
+            deploy::deploy(&bundle, &account_id, &token, &project);
         }
         Commands::RegenSqlite { output } => {
             regen_sqlite::regenerate_db(&output);
