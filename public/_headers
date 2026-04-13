@@ -1,0 +1,8 @@
+*.wasm.br
+  Content-Type: application/wasm
+  Content-Encoding: br
+
+*.json.br
+  Content-Type: application/json
+  Content-Encoding: br
+
