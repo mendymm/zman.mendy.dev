@@ -1,10 +1,12 @@
 # Build cleaned data with elevation and population
 build-data:
+    rm -f public/data/*
     cargo run -r -p data-cli  -- build-admin1
     cargo run -r -p data-cli  -- build-data
 
 # Build WASM package
 build-wasm:
+    rm -f public/dist/*
     wasm-pack build --target web --release wasm-funcs
     cp wasm-funcs/pkg/wasm_funcs_bg.wasm public/dist/
     brotli -f public/dist/wasm_funcs_bg.wasm
