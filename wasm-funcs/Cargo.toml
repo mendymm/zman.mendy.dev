@@ -16,5 +16,4 @@ jiff-icu = { version = "0.2.2", default-features = false, features = [] }
 # jiff-icu = "0.2.2"
 # icu = "2.2.0"
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = false
+

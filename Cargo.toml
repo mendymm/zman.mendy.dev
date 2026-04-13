@@ -2,7 +2,8 @@
 members = ["wasm-funcs", "data-cli"]
 resolver = "3"
 
-[profile.release]
+[profile.wasm-release]
+inherits = "release"
 opt-level = "z"
 lto = true
 codegen-units = 1

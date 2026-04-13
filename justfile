@@ -13,9 +13,11 @@ build-data:
 # Build WASM package
 build-wasm:
     rm -f public/dist/*
-    wasm-pack build --target web --release wasm-funcs
-    cp wasm-funcs/pkg/wasm_funcs_bg.wasm public/dist/
-    brotli -f public/dist/wasm_funcs_bg.wasm
+    rm -f wasm-funcs/pkg/*
+    wasm-pack build --target web --profile wasm-release wasm-funcs --no-opt --no-pack
+    brotli -f wasm-funcs/pkg/wasm_funcs_bg.wasm
+    cp wasm-funcs/pkg/wasm_funcs_bg.wasm.br public/dist/
+    
 
 # build web bundle
 build-web: build-wasm
