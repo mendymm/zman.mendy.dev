@@ -1,0 +1,5 @@
+/target
+/dist
+/web/node_modules
+bundle.zip
+.Ds_store
