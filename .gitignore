@@ -3,3 +3,5 @@
 /web/node_modules
 bundle.zip
 .Ds_store
+
+data/cities.db
