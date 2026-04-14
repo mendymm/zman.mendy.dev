@@ -213,8 +213,21 @@ function calculateZmanim(): void {
     return;
   }
 
-  const lat = parseFloat((document.getElementById("lat") as HTMLInputElement).value);
-  const lon = parseFloat((document.getElementById("lon") as HTMLInputElement).value);
+  const latStr = (document.getElementById("lat") as HTMLInputElement).value;
+  const lonStr = (document.getElementById("lon") as HTMLInputElement).value;
+
+  if (!latStr || !lonStr) {
+    document.getElementById("zmanim_result")!.textContent = "Please select a city or use your location first.";
+    return;
+  }
+
+  const lat = parseFloat(latStr);
+  const lon = parseFloat(lonStr);
+
+  if (isNaN(lat) || isNaN(lon)) {
+    document.getElementById("zmanim_result")!.textContent = "Invalid location data. Please select a city.";
+    return;
+  }
   const elevation = parseFloat((document.getElementById("elevation") as HTMLInputElement).value);
   const tz = (document.getElementById("tz") as HTMLInputElement).value;
   const locationName = selectedCity?.n || "Custom Location";
