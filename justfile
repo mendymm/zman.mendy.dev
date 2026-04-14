@@ -34,6 +34,8 @@ build-zip: build-web build-data
         cd public && \
         zip -r ../bundle.zip ./
 
+serve: build-web
+    bun serve.ts
 
 deploy: build-zip
     # Set environment variables
