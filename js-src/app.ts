@@ -75,7 +75,7 @@ async function loadCities(): Promise<void> {
       .trim()
       .split("\n")
       .map((line) => JSON.parse(line) as City);
-    resultDiv.textContent = `Loaded ${cities.length} cities. Search above or enter coordinates manually.`;
+    resultDiv.textContent = `Loaded ${cities.length} cities. Search city above.`;
     resultDiv.classList.remove("loading");
   } catch (e) {
     resultDiv.textContent = "Error loading city data: " + (e as Error).message;
