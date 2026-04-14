@@ -34,8 +34,11 @@ build-zip: build-web build-data
         cd public && \
         zip -r ../bundle.zip ./
 
+
+
+export CLOUDFLARE_API_TOKEN := `op --account my.1password.ca read op://Personal/zman.mendy.dev/api_token`
+export CLOUDFLARE_ACCOUNT_ID := `op --account my.1password.ca read op://Personal/zman.mendy.dev/account_id`
+
 deploy: build-zip
-    cargo run -r -p data-cli -- \
-        deploy-cf-pages \
-        --account-id $(op --account my.1password.ca read op://Personal/zman.mendy.dev/account_id) \
-        --token $(op --account my.1password.ca read op://Personal/zman.mendy.dev/api_token)
+    # Set environment variables
+    bunx wrangler@4.82.2 pages deploy ./public --project-name=zman
