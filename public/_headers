@@ -1,8 +1,12 @@
-*.wasm.br
+/dist/*.wasm.br
   Content-Type: application/wasm
   Content-Encoding: br
 
-*.json.br
+/data/*.json.br
+  Content-Type: application/json
+  Content-Encoding: br
+
+/data/*.jsonl.br
   Content-Type: application/json
   Content-Encoding: br
 

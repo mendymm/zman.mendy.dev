@@ -1,5 +1,5 @@
 import type { City, NearestCityResult } from "./types";
-import init, { initSync, dbg_zemanim, get_current_time } from "../wasm-funcs/pkg/wasm_funcs";
+import { initSync, dbg_zemanim, get_current_time } from "../wasm-funcs/pkg/wasm_funcs";
 
 const ADMIN1_PATH = "/data/admin1.json.br";
 const CITIES_PATH = "/data/cities.jsonl.br";
@@ -11,37 +11,27 @@ let wasmReady = false;
 let selectedCity: City | null = null;
 let isLoading = true;
 
-async function fetchDecompressed(path: string): Promise<Response> {
+async function fetchText(path: string): Promise<string> {
   const response = await fetch(path);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${path}: ${response.status}`);
   }
-
-  if (typeof DecompressionStream !== "undefined") {
-    try {
-      const ds = new DecompressionStream("brotli");
-      const decompressedStream = response.body!.pipeThrough(ds);
-      return new Response(decompressedStream);
-    } catch (e) {
-      console.log(`DecompressionStream failed for ${path}:`, (e as Error).message);
-    }
-  }
-
-  return response;
-}
-
-async function fetchText(path: string): Promise<string> {
-  const response = await fetchDecompressed(path);
   return response.text();
 }
 
 async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetchDecompressed(path);
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${path}: ${response.status}`);
+  }
   return response.json();
 }
 
 async function fetchArrayBuffer(path: string): Promise<ArrayBuffer> {
-  const response = await fetchDecompressed(path);
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${path}: ${response.status}`);
+  }
   return response.arrayBuffer();
 }
 
@@ -232,7 +222,8 @@ function calculateZmanim(): void {
   const lonStr = (document.getElementById("lon") as HTMLInputElement).value;
 
   if (!latStr || !lonStr) {
-    document.getElementById("zmanim_result")!.textContent = "Please select a city or use your location first.";
+    document.getElementById("zmanim_result")!.textContent =
+      "Please select a city or use your location first.";
     return;
   }
 
@@ -240,15 +231,14 @@ function calculateZmanim(): void {
   const lon = parseFloat(lonStr);
 
   if (isNaN(lat) || isNaN(lon)) {
-    document.getElementById("zmanim_result")!.textContent = "Invalid location data. Please select a city.";
+    document.getElementById("zmanim_result")!.textContent =
+      "Invalid location data. Please select a city.";
     return;
   }
   const elevation = parseFloat((document.getElementById("elevation") as HTMLInputElement).value);
   const tz = (document.getElementById("tz") as HTMLInputElement).value;
   const locationName = selectedCity?.n || "Custom Location";
-  const admin1Code = selectedCity
-    ? getAdmin1Name(selectedCity.cc, selectedCity.a1)
-    : null;
+  const admin1Code = selectedCity ? getAdmin1Name(selectedCity.cc, selectedCity.a1) : null;
   const countryCode = selectedCity?.cc || "";
   const dateStr = (document.getElementById("date") as HTMLInputElement).value || null;
 
