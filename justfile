@@ -29,6 +29,7 @@ build-web: build-wasm
 
 # Build the zip bundle for deployment
 build-zip: build-web build-data
+    cp LICENSE.txt public/
     rm -f bundle.zip && \
         cd public && \
         zip -r ../bundle.zip ./

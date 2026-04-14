@@ -68,7 +68,9 @@ Run `just --list` to see all available commands:
 │   ├── data/
 │   ├── dist/
 │   ├── _headers
+│   ├── LICENSE.txt        # Copied during build
 │   └── index.html
+├── LICENSE.txt            # LGPL-3.0-or-later
 └── justfile               # Build commands
 ```
 
