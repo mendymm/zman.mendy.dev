@@ -1,3 +1,7 @@
+# Build the cities.db sqlite database from data files
+regen-db:
+    cargo run -r -p data-cli -- regen-sqlite
+
 # Build cleaned data with elevation and population
 build-data:
     #!/usr/bin/env bash
