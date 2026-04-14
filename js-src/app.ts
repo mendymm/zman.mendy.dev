@@ -128,6 +128,21 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 }
 
 function findNearestCity(lat: number, lon: number): NearestCityResult {
+  const RADIUS_KM = 30;
+  const candidates: { city: City; distance: number }[] = [];
+
+  for (const city of cities) {
+    const distance = calculateDistance(lat, lon, city.lat, city.lon);
+    if (distance <= RADIUS_KM) {
+      candidates.push({ city, distance });
+    }
+  }
+
+  if (candidates.length > 0) {
+    candidates.sort((a, b) => b.city.pop - a.city.pop);
+    return { city: candidates[0].city, distance: candidates[0].distance };
+  }
+
   let nearest: City | null = null;
   let minDistance = Infinity;
 
