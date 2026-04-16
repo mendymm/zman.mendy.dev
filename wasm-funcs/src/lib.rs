@@ -4,7 +4,7 @@ use jiff_icu::ConvertInto as _;
 use rust_zmanim::prelude::{ComplexZmanimCalendar, GeoLocation, UseElevation};
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = "getCurrentTime")]
 pub fn get_current_time(timezone: String, timestamp_ms: i64) -> String {
     match TimeZone::get(&timezone) {
         Ok(tz) => {
@@ -16,7 +16,7 @@ pub fn get_current_time(timezone: String, timestamp_ms: i64) -> String {
     }
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = "printZman")]
 pub fn dbg_zemanim(
     latitude: f64,
     longitude: f64,

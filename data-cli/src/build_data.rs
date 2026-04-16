@@ -44,8 +44,7 @@ pub fn build_data(db_path: &str, output_path: &str) {
         .unwrap();
 
     let output_file = File::create(output_path).unwrap();
-    let writer = BufWriter::new(output_file);
-    let mut br_writer = brotli::CompressorWriter::new(writer, 4096, 11, 22);
+    let mut writer = BufWriter::new(output_file);
 
     let mut count = 0u32;
 
@@ -67,7 +66,7 @@ pub fn build_data(db_path: &str, output_path: &str) {
 
     for city in rows {
         let city = city.unwrap();
-        writeln!(br_writer, "{}", serde_json::to_string(&city).unwrap()).unwrap();
+        writeln!(writer, "{}", serde_json::to_string(&city).unwrap()).unwrap();
         count += 1;
 
         if count % 10000 == 0 {
@@ -75,6 +74,6 @@ pub fn build_data(db_path: &str, output_path: &str) {
         }
     }
 
-    br_writer.flush().unwrap();
+    writer.flush().unwrap();
     println!("Done! Written {} cities to {}", count, output_path);
 }

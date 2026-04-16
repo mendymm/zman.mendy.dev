@@ -7,3 +7,7 @@ bundle.zip
 data/cities.db
 public/LICENSE.txt
 .wrangler
+
+frontend/node_modules
+frontend/build
+frontend/.svelte-kit

@@ -60,11 +60,9 @@ pub fn build_admin1(db_path: &str, output_path: &str) {
         result.entry(cc).or_default().insert(a1, name);
     }
 
-    let file = File::create(output_path).unwrap();
-    let mut br_writer = brotli::CompressorWriter::new(file, 4096, 11, 22);
-    serde_json::to_writer(&mut br_writer, &result).unwrap();
-    br_writer.flush().unwrap();
-    br_writer.into_inner().flush().unwrap();
+    let mut file = File::create(output_path).unwrap();
+    serde_json::to_writer(&mut file, &result).unwrap();
+    file.flush().unwrap();
 
     println!("Admin1 codes written to {}", output_path);
     println!("  Used location codes: {}", total_used);

@@ -5,40 +5,28 @@ regen-db:
 # Build cleaned data with elevation and population
 build-data:
     #!/usr/bin/env bash
-    set -e
-    if [ -f public/data/admin1.json.br ] && [ -f public/data/cities.jsonl.br ]; then
-        echo "Data files already exist, skipping regeneration"
-    else
-        rm -f public/data/*
-        cargo run -r -p data-cli -- build-admin1
-        cargo run -r -p data-cli -- build-data
-    fi
+    cargo run -r -p data-cli -- build-admin1
+    cargo run -r -p data-cli -- build-data
+
 
 # Build WASM package
 build-wasm:
-    rm -f public/dist/*
-    rm -f wasm-funcs/pkg/*
-    wasm-pack build --target web --profile wasm-release wasm-funcs --no-opt --no-pack
-    brotli -f wasm-funcs/pkg/wasm_funcs_bg.wasm
-    cp wasm-funcs/pkg/wasm_funcs_bg.wasm.br public/dist/
+    wasm-pack build --target web --profile wasm-release wasm-funcs --no-opt --no-pack --out-dir ../frontend/src/lib/wasm-gen-output
     
 
 # build web bundle
-build-web: build-wasm
-    bun build --outdir ./public/dist/  --target=browser --minify js-src/app.ts --sourcemap=external
-
-# Build the zip bundle for deployment
-build-zip: build-web build-data
-    cp LICENSE.txt public/
-    rm -f bundle.zip && \
-        cd public && \
-        zip -r ../bundle.zip ./
+build-web: build-wasm build-data
+    #!/usr/bin/env bash
+    cd frontend
+    bun run build
 
 serve: build-web
-    bun serve.ts
+    #!/usr/bin/env bash
+    cd frontend
+    bun run dev
 
-deploy: build-zip
+deploy: build-web
     # Set environment variables
     CLOUDFLARE_API_TOKEN=$(op --account my.1password.ca read op://Personal/zman.mendy.dev/api_token) \
     CLOUDFLARE_ACCOUNT_ID=$(op --account my.1password.ca read op://Personal/zman.mendy.dev/account_id) \
-    bunx wrangler@4.82.2 pages deploy ./public --project-name=zman
+    bunx wrangler@4.82.2 pages deploy ./frontend/build --project-name=zman

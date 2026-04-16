@@ -21,7 +21,7 @@ enum Commands {
         db: String,
 
         /// Output path for admin1 codes file
-        #[arg(short, long, default_value = "public/data/admin1.json.br")]
+        #[arg(short, long, default_value = "frontend/static/data/admin1.json")]
         output: String,
     },
 
@@ -32,7 +32,7 @@ enum Commands {
         db: String,
 
         /// Output path for client data file
-        #[arg(short, long, default_value = "public/data/cities.jsonl.br")]
+        #[arg(short, long, default_value = "frontend/static/data/cities.json")]
         output: String,
     },
     /// Regenerate the SQLite database from source data files
