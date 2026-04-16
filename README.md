@@ -31,13 +31,13 @@ just deploy
 ## Development
 
 ```bash
-# Build web bundle
+# Build web bundle and serve with hot reload
+just serve
+
+# Or build manually
 just build-web
 
-# Serve locally
-bunx http-server -c-1 public/
-
-# Open http://localhost:8080
+# Open http://localhost:5173
 ```
 
 ## Commands
@@ -47,10 +47,10 @@ Run `just --list` to see all available commands:
 | Command | Description |
 |---------|-------------|
 | `just regen-db` | Rebuild cities.db from source data |
-| `just build-data` | Build client data files (skips if exists) |
+| `just build-data` | Build client data files |
 | `just build-wasm` | Build WASM package |
 | `just build-web` | Build web bundle (includes WASM) |
-| `just build-zip` | Create deployment zip bundle |
+| `just serve` | Build and serve locally with dev server |
 | `just deploy` | Deploy to Cloudflare Pages |
 
 ## Project Structure
@@ -63,13 +63,10 @@ Run `just --list` to see all available commands:
 │   └── admin1CodesASCII.txt
 ├── data-cli/              # Rust CLI tool
 ├── wasm-funcs/            # Rust WASM functions
-├── js-src/                # TypeScript web app
-├── public/                # Build output
-│   ├── data/
-│   ├── dist/
-│   ├── _headers
-│   ├── LICENSE.txt        # Copied during build
-│   └── index.html
+├── frontend/              # SvelteKit web app
+│   ├── src/
+│   ├── static/
+│   └── build/             # Build output
 ├── LICENSE.txt            # LGPL-3.0-or-later
 └── justfile               # Build commands
 ```
