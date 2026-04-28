@@ -8,7 +8,7 @@
 		findNearestCity,
 	} from "$lib/cities.js";
 	import { getCurrentPosition } from "$lib/geolocation.js";
-	import { warmup, printZman } from "$lib";
+	import { printZman } from "$lib";
 	import CitySearch from "$lib/components/CitySearch.svelte";
 	import ZmanimResult from "$lib/components/ZmanimResult.svelte";
 
@@ -22,7 +22,6 @@
 	let locationStatus = $state("");
 
 	onMount(async () => {
-		void warmup();
 		try {
 			const [c, a] = await Promise.all([loadCities(), loadAdmin1()]);
 			cities = c;
