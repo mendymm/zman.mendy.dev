@@ -26,7 +26,7 @@
 
 	const results = $derived(dataLoaded && query.trim() ? searchCities(cities, query) : []);
 
-	// city.id → local time string, populated lazily via WASM
+	// city.id -> local time string, populated lazily via WASM
 	let timeCache = $state(new Map<string, string>());
 
 	$effect(() => {

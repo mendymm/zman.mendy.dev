@@ -12,8 +12,8 @@
 	import CitySearch from "$lib/components/CitySearch.svelte";
 	import ZmanimResult from "$lib/components/ZmanimResult.svelte";
 
-	let cities = $state<City[]>([]);
-	let admin1Names = $state<Record<string, Record<string, string>>>({});
+	let cities = $state.raw<City[]>([]);
+	let admin1Names = $state.raw<Record<string, Record<string, string>>>({});
 	let dataLoaded = $state(false);
 	let selectedCity = $state<City | null>(null);
 	let selectedCityName = $state("");
